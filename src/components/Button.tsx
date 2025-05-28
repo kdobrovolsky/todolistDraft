@@ -1,6 +1,7 @@
 type ButtonType = {
     title: string
     onClick?: () => void
+    className?: string
 }
 
-export const Button = ({title,onClick}:ButtonType) => <button onClick={onClick}>{title}</button>
+export const Button = ({className,title,onClick}:ButtonType) => <button className={className} onClick={onClick}>{title}</button>

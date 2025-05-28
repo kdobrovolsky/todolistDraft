@@ -9,23 +9,26 @@ export type Task = {
 };
 
 type TodolistPropsType = {
-  title: string;
-  tasks: Task[];
-  deleteTasks: (taskId: string) => void;
-  changeFilter: (filted: FilterValues) => void;
-  createTasks: (title: string) => void;
+  title: string
+  tasks: Task[]
+  filter: FilterValues
+  deleteTasks: (taskId: string) => void
+  changeFilter: (filted: FilterValues) => void
+  createTasks: (title: string) => void
   changeTaskStatus: (taskId:string, isDone: boolean) => void
 };
 
 export const TodoListItem = ({
   title,
   tasks,
+  filter,
   deleteTasks,
   changeFilter,
   createTasks,
   changeTaskStatus,
 }: TodolistPropsType) => {
   const [taskTitle, setTaskTitle] = useState("");
+  const [error, setError] = useState<string|null>(null)
   
   
   const createTaskHandler = () => {
@@ -33,12 +36,15 @@ export const TodoListItem = ({
   if(trimmedTitle.trim() !== ''){
     createTasks(trimmedTitle);
     setTaskTitle("");
+}else{
+  setError('Title is requared')
 }
   };
  
   
   const onChangeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setTaskTitle(event.currentTarget.value);
+    setError(null)
   };
 
   //Функция отправки таски оп нажатию enter
@@ -50,11 +56,13 @@ export const TodoListItem = ({
       <h3>{title}</h3>
       <div>
         <input
+        className={error?'error':''}
           value={taskTitle}
           onChange={onChangeTaskTitleHandler}
           onKeyDown={onKeyDownHandler}
         />
         <Button title={"+"} onClick={createTaskHandler} />
+        {error && <div className={'error-message'}>{error}</div>}
       </div>
       {tasks.length === 0 ? (
         <p>No tasks</p>
@@ -70,7 +78,7 @@ export const TodoListItem = ({
                 changeTaskStatus(task.id, newTaskValue)
             }
             return (
-              <li key={task.id}>
+              <li key={task.id} className={task.isDone?'is-done':''}>
                 <input type="checkbox" checked={task.isDone} onChange={onChangeTaskStatusHandler}/>
                 <span>{task.title}</span>
                 <Button
@@ -82,11 +90,11 @@ export const TodoListItem = ({
         </ul>
       )}
       <div>
-        <Button title={"All"} onClick={() => changeFilter("all")} />
-        <Button title={"Active"} onClick={() => changeFilter("active")} />
-        <Button title={"Completed"} onClick={() => changeFilter("completed")} />
+        <Button className={filter === 'all'? 'active-filter': ''} title={"All"} onClick={() => changeFilter("all")} />
+        <Button className={filter === 'active'? 'active-filter': ''} title={"Active"} onClick={() => changeFilter("active")} />
+        <Button className={filter === 'completed'? 'active-filter': ''} title={"Completed"} onClick={() => changeFilter("completed")} />
         <div>
-  <div>Many intresting information</div>
+         <div>Many intresting information</div>
         </div>
       </div>
     </div>

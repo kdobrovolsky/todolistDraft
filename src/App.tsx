@@ -50,9 +50,9 @@ function App() {
         tasks={filteredTasks}
         deleteTasks={deleteTasks}
         changeFilter={changeFilter}
-        createTasks = {createTasks}
-        changeTaskStatus= {changeTaskStatus}
-      />
+        createTasks={createTasks}
+        changeTaskStatus={changeTaskStatus} 
+        filter={filter}     />
     </div>
   );
 }

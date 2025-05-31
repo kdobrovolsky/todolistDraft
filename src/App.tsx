@@ -32,9 +32,9 @@ export const App = () => {
   }
   
 
-  const createTasks = () => {
-    const newTask =  { id: v1(), title: 'HTML&CSS', isDone: true }
-    const newTasks = [...tasks, newTask]
+  const createTasks = (taskTitle: string) => {
+    const newTask =  { id: v1(), title: taskTitle, isDone: true }
+    const newTasks = [newTask,...tasks ]
     setTasks(newTasks)
   }
 

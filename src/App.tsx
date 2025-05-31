@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Task, TodolistItem } from "./components/TodoListItem"
 import { v1 } from "uuid"
+import "./App.css";
 
 export type TaskValues = 'all' | 'active' | 'completed'
 
@@ -11,7 +12,6 @@ export const App = () => {
     { id: v1(), title: 'ReactJS', isDone: false },
     { id: v1(), title: 'Redux', isDone: false },
   ])  
-  console.log(tasks)
   const [filter, setFilter] = useState('all')
 
   //delete tasks
@@ -38,13 +38,24 @@ export const App = () => {
     setTasks(newTasks)
   }
 
+  const changeTaskStatus = (taskId: string, isDone: boolean) => {
+    const task = tasks.find(t=> t.id === taskId)
+    if(task){
+      task.isDone = isDone
+      setTasks([...tasks])
+    }
+  }
+
+
   return(
 <TodolistItem 
 title="Todolist" 
 tasks={filteredTasks}
+filter={filter}
 deleteTasks={deleteTasks}
 changeFilter ={changeFilter}
 createTasks = {createTasks}
+changeTaskStatus ={changeTaskStatus}
 />
 
   )

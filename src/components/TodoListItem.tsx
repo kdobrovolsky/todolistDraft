@@ -2,6 +2,7 @@ import { ChangeEvent, useState,KeyboardEvent } from "react"
 import { TaskValues } from "../App"
 import { Button } from "./Button"
 
+
 export type Task = {
   id: string
   title: string
@@ -11,26 +12,34 @@ export type Task = {
 type TodolistProps = {
   title: string
   tasks: Task[] 
+  filter: string
   deleteTasks: (taskId: string)=>void
   changeFilter: (filter: TaskValues) => void
   createTasks: (taskTitle:string) => void
+  changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
-export const TodolistItem = ({title,tasks,deleteTasks,changeFilter,createTasks}:TodolistProps) => {
+export const TodolistItem = ({title,tasks,filter,deleteTasks,changeFilter,createTasks,changeTaskStatus}:TodolistProps) => {
 
   const [taskTitle, setTaskTitle] = useState('')
+  const [error, setError] = useState<string|null>(null)
 
   const onChangeInputHandler = (e:ChangeEvent<HTMLInputElement>) => {
     setTaskTitle(e.currentTarget.value)
+    setError(null)
   }
 
   const onClickButtonHandler =() => {
-   createTasks(taskTitle)
+    if(taskTitle !== ''){
+   createTasks(taskTitle.trim())
    setTaskTitle('')
+  }else{
+    setError('Title is required')
+  }
   }
 
   const onKeyDownHangler = (event: KeyboardEvent<HTMLInputElement>) => {
-      if(event.key === 'Enter'){
+      if(taskTitle !== '' && event.key === 'Enter'){
         onClickButtonHandler()
             }
   }
@@ -39,29 +48,37 @@ export const TodolistItem = ({title,tasks,deleteTasks,changeFilter,createTasks}:
       <div>
         <h3>{title}</h3>
         <div>
-          <input 
+          <input className={error ? 'error': ''} 
           value={taskTitle} 
           onChange={onChangeInputHandler}
           onKeyDown={onKeyDownHangler}
           />
-          <Button title="+" onClick={onClickButtonHandler}/>
+          <Button title="+" onClick={onClickButtonHandler} disabled={taskTitle === ''}/>
+          {error && <div className={"error-message"}>{error}</div>}
         </div>
         {tasks.length === 0 ? (
            <p>No tasts</p>
         ):( 
         <ul>
-          {tasks.map(task => (
-          <li key={task.id}>
-            <input type="checkbox" checked={task.isDone}/> <span>{task.title}</span>
+          {tasks.map(task => {
+             const onChangeCheckedHandler = (e:ChangeEvent<HTMLInputElement>) => {
+             const newStatusValue = e.currentTarget.checked
+            changeTaskStatus(task.id, newStatusValue)
+             }
+          return(
+           
+          <li key={task.id} className={task.isDone? 'is-done': ''}>
+            <input type="checkbox" checked={task.isDone} onChange={onChangeCheckedHandler}/> <span>{task.title}</span>
             <Button title="X" onClick={()=>deleteTasks(task.id)}/>
           </li>
-          ))}
+          )
+          })}
         </ul>
          )}
         <div>
-        <Button title="All" onClick={()=>changeFilter('all')}/>
-        <Button title="Active" onClick={()=>changeFilter('active')}/>
-        <Button title="Completed" onClick={()=>changeFilter('completed')}/>
+        <Button className={filter === 'all'?'active-filter':''} title="All" onClick={()=>changeFilter('all')}/>
+        <Button className={filter === 'active'?'active-filter':''} title="Active" onClick={()=>changeFilter('active')}/>
+        <Button className={filter === 'completed'?'active-filter':''} title="Completed" onClick={()=>changeFilter('completed')}/>
         </div>
       </div>
   )

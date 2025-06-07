@@ -11,14 +11,12 @@ type TodolistType = {
 };
 
 export const App = () => {
- 
-
   //delete tasks
   const deleteTasks = (taskId: string, todolistId: string) => {
-    let tasks = tasksObj[todolistId]
+    let tasks = tasksObj[todolistId];
     const filteredTasks = tasks.filter((t) => t.id !== taskId);
-    tasksObj[todolistId] = filteredTasks
-    setTasksObj({...tasksObj});
+    tasksObj[todolistId] = filteredTasks;
+    setTasksObj({ ...tasksObj });
   };
 
   //filter tasks
@@ -32,40 +30,42 @@ export const App = () => {
 
   const createTasks = (taskTitle: string, todolistId: string) => {
     const newTask = { id: v1(), title: taskTitle, isDone: false };
-    let tasks = tasksObj[todolistId]
+    let tasks = tasksObj[todolistId];
     const newTasks = [newTask, ...tasks];
-    tasksObj[todolistId] = newTasks
-    setTasksObj({...tasksObj});
+    tasksObj[todolistId] = newTasks;
+    setTasksObj({ ...tasksObj });
   };
 
-  const changeTaskStatus = (taskId: string, isDone: boolean, todolistId: string) => {
-    let tasks = tasksObj[todolistId]
+  const changeTaskStatus = (
+    taskId: string,
+    isDone: boolean,
+    todolistId: string
+  ) => {
+    let tasks = tasksObj[todolistId];
     const task = tasks.find((t) => t.id === taskId);
     if (task) {
       task.isDone = isDone;
-      setTasksObj({...tasksObj});
+      setTasksObj({ ...tasksObj });
     }
   };
 
   let todolistId1 = v1();
   let todolistId2 = v1();
 
-
-
   const [todolists, setTodolists] = useState<Array<TodolistType>>([
     { id: todolistId1, title: "What to learn", filter: "all" },
     { id: todolistId2, title: "What to buy", filter: "all" },
   ]);
 
-  let removeTodolist = (todolistId: string) =>{
-    let filteredTodolist = todolists.filter(tl=> tl.id !== todolistId)
-    setTodolists(filteredTodolist)
-    delete tasksObj[todolistId]
-    setTasksObj({...tasksObj})
-  }
+  let removeTodolist = (todolistId: string) => {
+    let filteredTodolist = todolists.filter((tl) => tl.id !== todolistId);
+    setTodolists(filteredTodolist);
+    delete tasksObj[todolistId];
+    setTasksObj({ ...tasksObj });
+  };
 
   let [tasksObj, setTasksObj] = useState({
-   [todolistId1]: [
+    [todolistId1]: [
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
       { id: v1(), title: "ReactJS", isDone: false },
@@ -79,6 +79,7 @@ export const App = () => {
 
   return (
     <div>
+      <input  /> <button>x</button>
       {todolists.map((tl) => {
         //todolist.map нужен для отрисовки нескольких тудулистов
         //Фильтрацию правильно сделать внутри мапа, снаружи нет смысла делать фильтр. т.к работа с каждым тудулистом происходит внутри мапа
@@ -99,7 +100,7 @@ export const App = () => {
             changeFilter={changeFilter}
             createTasks={createTasks}
             changeTaskStatus={changeTaskStatus}
-            removeTodoList = {removeTodolist}
+            removeTodoList={removeTodolist}
           />
         );
       })}

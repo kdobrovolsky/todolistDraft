@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Task, TodolistItem } from "./components/TodoListItem";
 import { v1 } from "uuid";
 import "./App.css";
+import { AddItemForm } from "./components/AddItemForm";
 
 export type TaskValues = "all" | "active" | "completed";
 type TodolistType = {
@@ -77,9 +78,21 @@ export const App = () => {
     ],
   });
 
+  const addTodolist = (title: string) =>  {
+    let todolist: TodolistType = {
+      id: v1(),
+      filter: 'all',
+      title: title
+    }
+
+    setTodolists([todolist, ...todolists])
+    setTasksObj({...tasksObj, [todolist.id]:[] })
+  }
+
+ 
   return (
-    <div>
-      <input  /> <button>x</button>
+    <div className="app">
+      <AddItemForm  addItem={addTodolist}/>
       {todolists.map((tl) => {
         //todolist.map нужен для отрисовки нескольких тудулистов
         //Фильтрацию правильно сделать внутри мапа, снаружи нет смысла делать фильтр. т.к работа с каждым тудулистом происходит внутри мапа

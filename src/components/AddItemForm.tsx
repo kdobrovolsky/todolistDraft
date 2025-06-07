@@ -2,11 +2,10 @@ import { KeyboardEvent, ChangeEvent, useState } from "react";
 import { Button } from "./Button";
 
 export type AddItemFormPropsType = {
-  id: string;
-  createTasks: (taskTitle: string, todolistId: string) => void;
+  addItem: (taskTitle: string) => void;
 };
 
-export const AddItemForm = ({ createTasks, id }: AddItemFormPropsType) => {
+export const AddItemForm = ({ addItem }: AddItemFormPropsType) => {
   const [taskTitle, setTaskTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +22,7 @@ export const AddItemForm = ({ createTasks, id }: AddItemFormPropsType) => {
 
   const onClickButtonHandler = () => {
     if (taskTitle !== "") {
-      createTasks(taskTitle.trim(), id);
+        addItem(taskTitle.trim());
       setTaskTitle("");
     } else {
       setError("Title is required");

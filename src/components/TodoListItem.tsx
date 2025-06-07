@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { ChangeEvent,} from "react";
 import { TaskValues } from "../App";
 import { Button } from "./Button";
 import { AddItemForm } from "./AddItemForm";
@@ -40,13 +40,17 @@ export const TodolistItem = ({
     removeTodoList(id);
   };
 
+  const addTask = (title:string) => {
+    createTasks(title,id)
+  } 
+
   return (
     <div>
       <h3>
         {title} <Button title={"X"} onClick={removeTodolist} />
       </h3>
 
-      <AddItemForm id={id} createTasks={createTasks} />
+      <AddItemForm addItem={addTask} />
       {tasks.length === 0 ? (
         <p>No tasts</p>
       ) : (

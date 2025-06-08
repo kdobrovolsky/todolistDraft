@@ -2,6 +2,7 @@ import { ChangeEvent,} from "react";
 import { TaskValues } from "../App";
 import { Button } from "./Button";
 import { AddItemForm } from "./AddItemForm";
+import { EditableSpan } from "./EditableSpan";
 
 export type Task = {
   id: string;
@@ -22,6 +23,15 @@ type TodolistProps = {
     isDone: boolean,
     todolistId: string
   ) => void;
+
+  changeTaskTitle: (
+    taskId: string,
+    newTitle: string,
+    todolistId: string
+  ) => void;
+
+  changeTodolistTitle: (id: string,newTitle: string,) => void;
+  
   removeTodoList: (todolistId: string) => void;
 };
 
@@ -35,7 +45,11 @@ export const TodolistItem = ({
   createTasks,
   changeTaskStatus,
   removeTodoList,
+  changeTodolistTitle,
+  changeTaskTitle,
+  
 }: TodolistProps) => {
+
   const removeTodolist = () => {
     removeTodoList(id);
   };
@@ -44,10 +58,14 @@ export const TodolistItem = ({
     createTasks(title,id)
   } 
 
+  const onChangeTodolistTitle = (newTitle: string) => {
+    changeTodolistTitle(id,newTitle)
+  };
+
   return (
     <div>
       <h3>
-        {title} <Button title={"X"} onClick={removeTodolist} />
+        <EditableSpan title={title} onChange={onChangeTodolistTitle}/> <Button title={"X"} onClick={removeTodolist} />
       </h3>
 
       <AddItemForm addItem={addTask} />
@@ -62,6 +80,11 @@ export const TodolistItem = ({
               const newStatusValue = e.currentTarget.checked;
               changeTaskStatus(task.id, newStatusValue, id);
             };
+
+            const onChangeTitleHandler = (newValue: string) => {
+             changeTaskTitle(task.id,newValue, id)
+            };
+
             return (
               <li key={task.id} className={task.isDone ? "is-done" : ""}>
                 <input
@@ -69,7 +92,7 @@ export const TodolistItem = ({
                   checked={task.isDone}
                   onChange={onChangeCheckedHandler}
                 />{" "}
-                <span>{task.title}</span>
+                <EditableSpan title={task.title} onChange={onChangeTitleHandler} />
                 <Button title="X" onClick={() => deleteTasks(task.id, id)} />
               </li>
             );

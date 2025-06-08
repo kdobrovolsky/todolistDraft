@@ -11,6 +11,10 @@ type TodolistType = {
   filter: TaskValues;
 };
 
+type TaskStateType = { // Типизация для taskObj
+  [key: string]: Array<Task>
+}
+
 export const App = () => {
   //delete tasks
   const deleteTasks = (taskId: string, todolistId: string) => {
@@ -65,7 +69,7 @@ export const App = () => {
     setTasksObj({ ...tasksObj });
   };
 
-  let [tasksObj, setTasksObj] = useState({
+  let [tasksObj, setTasksObj] = useState<TaskStateType>({
     [todolistId1]: [
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -79,14 +83,30 @@ export const App = () => {
   });
 
   const addTodolist = (title: string) =>  {
-    let todolist: TodolistType = {
-      id: v1(),
-      filter: 'all',
-      title: title
-    }
-
+   let todolist: TodolistType = { 
+    id: v1(),
+    filter: 'active',
+    title: title
+   }
     setTodolists([todolist, ...todolists])
-    setTasksObj({...tasksObj, [todolist.id]:[] })
+    setTasksObj({...tasksObj,[todolist.id]: []})
+  }
+
+  const changeTaskTitle = (taskId: string,newTitle: string,todolistId: string) => {
+    let tasks = tasksObj[todolistId];
+    const task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.title = newTitle;
+      setTasksObj({ ...tasksObj });
+    }
+  };
+
+  const changeTodolistTitle = (id: string,newTitle: string,) => {
+    const todolist = todolists.find(tl => tl.id === id)
+    if(todolist){
+      todolist.title = newTitle
+      setTodolists([...todolists])
+    }
   }
 
  
@@ -113,7 +133,9 @@ export const App = () => {
             changeFilter={changeFilter}
             createTasks={createTasks}
             changeTaskStatus={changeTaskStatus}
+            changeTaskTitle={changeTaskTitle}
             removeTodoList={removeTodolist}
+            changeTodolistTitle ={changeTodolistTitle}
           />
         );
       })}

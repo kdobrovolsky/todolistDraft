@@ -1,5 +1,5 @@
 import { ChangeEvent, useState, KeyboardEvent } from "react";
-import { FilterValue } from "../App";
+import { FilterValues } from "../App";
 import { Button } from "./ui/Button";
 
 export type TaskType = {
@@ -9,17 +9,19 @@ export type TaskType = {
 };
 
 export type TodolistItemPropsType = {
+  id: string
   title: string;
   tasks: TaskType[];
-  filter: string;
+  filter: FilterValues;
   deleteTasks: (taskId: string) => void;
-  changeFilter: (filter: FilterValue) => void;
+  changeFilter: (todolistID: string,filter: FilterValues) => void;
   createTasks: (title: string) => void;
   onChangeTaskStatus: (taksId: string, isDone: boolean) => void;
 };
 
 export const TodolistItem = ({
   title,
+  id,
   filter,
   tasks,
   createTasks,
@@ -45,10 +47,13 @@ export const TodolistItem = ({
   };
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && taskTitle !== "") {
+    if (e.key === "Enter" && taskTitle.trim() !== "") {
       createTasks(taskTitle.trim());
       setTaskTitle("");
+    }else{
+      setError("Title is required");
     }
+    
   };
 
   return (
@@ -65,7 +70,7 @@ export const TodolistItem = ({
         <Button title={"+"} onClick={onCreateTaskHandler} />
       </div>
       {error && <div className={"error-message"}>{error}</div>}
-      {tasks.length === 0 ? (
+      {!tasks || tasks.length === 0 ? (
         <p>no tasks</p>
       ) : (
         <ul>
@@ -99,17 +104,17 @@ export const TodolistItem = ({
         <Button
           className={filter === "all" ? "active-filter" : ""}
           title={"All"}
-          onClick={() => changeFilter("all")}
+          onClick={() => changeFilter(id,"all")}
         />
         <Button
           className={filter === "active" ? "active-filter" : ""}
           title={"Active"}
-          onClick={() => changeFilter("active")}
+          onClick={() => changeFilter(id,"active")}
         />
         <Button
           className={filter === "completed" ? "active-filter" : ""}
           title={"Completed"}
-          onClick={() => changeFilter("completed")}
+          onClick={() => changeFilter(id,"completed")}
         />
       </div>
     </div>

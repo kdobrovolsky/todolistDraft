@@ -14,14 +14,6 @@ export type TodolistsType = {
 
 
 export const App = () => {
-  // let [tasks, setTasks] = useState<TaskType[]>([
-  //   { id: v1(), title: "HTML&CSS", isDone: true },
-  //   { id: v1(), title: "JS", isDone: true },
-  //   { id: v1(), title: "ReactJS", isDone: false },
-  //   { id: v1(), title: "Redux", isDone: false },
-  // ]);
-
-  // const [filter, setFilter] = useState("all");
   let todolistID1 = v1()
   let todolistID2 = v1()
 
@@ -49,26 +41,26 @@ export const App = () => {
     ],
   });
 
- 
-
   const changeFilter = (todolistID: string,filter: FilterValues) => {
     setTodolists(todolists.map(tl => tl.id === todolistID ? {...tl,filter: filter}:tl));
   };
 
-  const deleteTasks = (taskId: string) => {
-    // const deleteTask = tasks.filter((t) => t.id !== taskId);
-    // setTasks(deleteTask);
+  const deleteTasks = (todolistID: string,taskId: string) => {
+    setTasks({...tasks, [todolistID]:tasks[todolistID].filter(t=> t.id !== taskId)});
   };
 
-  const createTasks = (title: string) => {
-    // const newTask = { id: v1(), title, isDone: false };
-    // const newTasks = [newTask, ...tasks];
-    // setTasks(newTasks);
+  const createTasks = (todolistID: string,title: string) => {
+    const newTask = { id: v1(), title, isDone: false };
+    setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]});
   };
 
-  const onChangeTaskStatus = (taskId: string, isDone: boolean) => {
-    // setTasks(tasks.map((t) => (t.id === taskId ? { ...t, isDone } : t)));
+  const onChangeTaskStatus = (todolistID: string,taskId: string, isDone: boolean) => {
+    setTasks({...tasks, [todolistID]:tasks[todolistID].map(t=> t.id === taskId ? {...t, isDone}: t)});
   };
+
+  const deleteTodolist = (todolistId: string) => {
+      setTodolists(todolists.filter(t => t.id !== todolistId))
+  }
 
   return (
     <div className="app">
@@ -93,6 +85,7 @@ export const App = () => {
             changeFilter={changeFilter}
             createTasks={createTasks}
             onChangeTaskStatus={onChangeTaskStatus}
+            deleteTodolist = {deleteTodolist}
           />
         );
       })}

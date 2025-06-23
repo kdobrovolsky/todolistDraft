@@ -13,10 +13,11 @@ export type TodolistItemPropsType = {
   title: string;
   tasks: TaskType[];
   filter: FilterValues;
-  deleteTasks: (taskId: string) => void;
+  deleteTasks: (todolistID: string,taskId: string) => void;
   changeFilter: (todolistID: string,filter: FilterValues) => void;
-  createTasks: (title: string) => void;
-  onChangeTaskStatus: (taksId: string, isDone: boolean) => void;
+  createTasks: (todolistID: string,title: string) => void;
+  onChangeTaskStatus: (todolistID: string,taksId: string, isDone: boolean) => void;
+  deleteTodolist:(todolistId: string)=> void
 };
 
 export const TodolistItem = ({
@@ -28,13 +29,14 @@ export const TodolistItem = ({
   deleteTasks,
   changeFilter,
   onChangeTaskStatus,
+  deleteTodolist,
 }: TodolistItemPropsType) => {
   const [taskTitle, setTaskTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const onCreateTaskHandler = () => {
     if (taskTitle !== "") {
-      createTasks(taskTitle.trim());
+      createTasks(id,taskTitle.trim());
       setTaskTitle("");
     } else {
       setError("Title is required");
@@ -48,7 +50,7 @@ export const TodolistItem = ({
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && taskTitle.trim() !== "") {
-      createTasks(taskTitle.trim());
+      createTasks(id,taskTitle.trim());
       setTaskTitle("");
     }else{
       setError("Title is required");
@@ -58,7 +60,7 @@ export const TodolistItem = ({
 
   return (
     <div>
-      <h3>{title}</h3>
+      <h3>{title} <Button title={"X"} onClick={()=>deleteTodolist(id)}/></h3>
       <div>
         <input
           value={taskTitle}
@@ -76,14 +78,14 @@ export const TodolistItem = ({
         <ul>
           {tasks.map((task) => {
             const deleteTasksHandler = () => {
-              deleteTasks(task.id);
+              deleteTasks(id,task.id);
             };
 
             const changeTaskStatusHandler = (
               e: ChangeEvent<HTMLInputElement>
             ) => {
               const newStatusValue = e.currentTarget.checked;
-              onChangeTaskStatus(task.id, newStatusValue);
+              onChangeTaskStatus(id,task.id, newStatusValue);
             };
 
             return (

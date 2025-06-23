@@ -13,7 +13,7 @@ export type TodolistItemPropsType = {
   title: string;
   tasks: TaskType[];
   filter: FilterValues;
-  deleteTasks: (taskId: string) => void;
+  deleteTasks: (todolistID: string,taskId: string) => void;
   changeFilter: (todolistID: string,filter: FilterValues) => void;
   createTasks: (title: string) => void;
   onChangeTaskStatus: (taksId: string, isDone: boolean) => void;
@@ -76,7 +76,7 @@ export const TodolistItem = ({
         <ul>
           {tasks.map((task) => {
             const deleteTasksHandler = () => {
-              deleteTasks(task.id);
+              deleteTasks(id,task.id);
             };
 
             const changeTaskStatusHandler = (

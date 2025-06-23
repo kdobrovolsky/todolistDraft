@@ -14,14 +14,6 @@ export type TodolistsType = {
 
 
 export const App = () => {
-  // let [tasks, setTasks] = useState<TaskType[]>([
-  //   { id: v1(), title: "HTML&CSS", isDone: true },
-  //   { id: v1(), title: "JS", isDone: true },
-  //   { id: v1(), title: "ReactJS", isDone: false },
-  //   { id: v1(), title: "Redux", isDone: false },
-  // ]);
-
-  // const [filter, setFilter] = useState("all");
   let todolistID1 = v1()
   let todolistID2 = v1()
 
@@ -55,9 +47,9 @@ export const App = () => {
     setTodolists(todolists.map(tl => tl.id === todolistID ? {...tl,filter: filter}:tl));
   };
 
-  const deleteTasks = (taskId: string) => {
+  const deleteTasks = (todolistID: string,taskId: string) => {
     // const deleteTask = tasks.filter((t) => t.id !== taskId);
-    // setTasks(deleteTask);
+    setTasks({...tasks, [todolistID]:tasks[todolistID].filter(t=> t.id !== taskId)});
   };
 
   const createTasks = (title: string) => {

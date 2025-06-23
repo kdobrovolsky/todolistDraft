@@ -52,10 +52,10 @@ export const App = () => {
     setTasks({...tasks, [todolistID]:tasks[todolistID].filter(t=> t.id !== taskId)});
   };
 
-  const createTasks = (title: string) => {
-    // const newTask = { id: v1(), title, isDone: false };
+  const createTasks = (todolistID: string,title: string) => {
+    const newTask = { id: v1(), title, isDone: false };
     // const newTasks = [newTask, ...tasks];
-    // setTasks(newTasks);
+    setTasks({...tasks, [todolistID]:[newTask, ...tasks[todolistID]]});
   };
 
   const onChangeTaskStatus = (taskId: string, isDone: boolean) => {

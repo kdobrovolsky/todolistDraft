@@ -58,9 +58,14 @@ export const App = () => {
     setTasks({...tasks, [todolistID]:[newTask, ...tasks[todolistID]]});
   };
 
-  const onChangeTaskStatus = (taskId: string, isDone: boolean) => {
+  const onChangeTaskStatus = (todolistID: string,taskId: string, isDone: boolean) => {
     // setTasks(tasks.map((t) => (t.id === taskId ? { ...t, isDone } : t)));
+    setTasks({...tasks, [todolistID]: tasks[todolistID].map(t=> t.id === taskId ? {...t, isDone}: t)})
   };
+
+  const deleteTodolist = (todolistID:string) => {
+    setTodolists(todolists.filter(t=> t.id !== todolistID))
+  }
 
   return (
     <div className="app">
@@ -85,6 +90,7 @@ export const App = () => {
             changeFilter={changeFilter}
             createTasks={createTasks}
             onChangeTaskStatus={onChangeTaskStatus}
+            deleteTodolist = {deleteTodolist}
           />
         );
       })}

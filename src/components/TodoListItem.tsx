@@ -17,7 +17,11 @@ export type TodolistItemPropsType = {
   changeFilter: (todolistID: string,filter: FilterValues) => void;
   createTasks: (todolistID: string,title: string) => void;
   onChangeTaskStatus: (todolistID: string,taksId: string, isDone: boolean) => void;
+<<<<<<< HEAD
   deleteTodolist:(todolistId: string)=> void
+=======
+  deleteTodolist: (todolistID: string) =>  void
+>>>>>>> 6c5bb778cb6e7f16ee4f29e69bd867652b5d4a04
 };
 
 export const TodolistItem = ({
@@ -40,12 +44,14 @@ export const TodolistItem = ({
       setTaskTitle("");
     } else {
       setError("Title is required");
+      
     }
   };
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value;
     setTaskTitle(inputValue);
+    setError(null)
   };
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -53,7 +59,9 @@ export const TodolistItem = ({
       createTasks(id,taskTitle.trim());
       setTaskTitle("");
     }else{
+      
       setError("Title is required");
+     
     }
     
   };

@@ -1,17 +1,20 @@
-import React, { ChangeEvent, useState,KeyboardEvent } from 'react';
-import { Button } from './ui/Button';
+import { ChangeEvent, useState,KeyboardEvent } from 'react';
+import {IconButton, TextField } from '@mui/material';
+import { ControlPoint } from '@mui/icons-material';
+
+
 
 export type AddItemForm = {
-    
+    addItem: (title: string) => void
 }
 
-export const AddItemForm = () => {
+export const AddItemForm = ({addItem}:AddItemForm) => {
       const [taskTitle, setTaskTitle] = useState("");
       const [error, setError] = useState<string | null>(null);
     
       const onCreateTaskHandler = () => {
         if (taskTitle !== "") {
-          createTasks(taskTitle.trim());
+          addItem(taskTitle.trim());
           setTaskTitle("");
         } else {
           setError("Title is required");
@@ -21,11 +24,12 @@ export const AddItemForm = () => {
       const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.currentTarget.value;
         setTaskTitle(inputValue);
+        setError(null);
       };
     
       const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && taskTitle.trim() !== "") {
-          createTasks(taskTitle.trim());
+          addItem(taskTitle.trim());
           setTaskTitle("");
         }else{
           setError("Title is required");
@@ -35,15 +39,19 @@ export const AddItemForm = () => {
     return (
 
         <div>
-        <input
+        <TextField
           value={taskTitle}
           onChange={onChangeInputHandler}
           onKeyDown={onKeyDownHandler}
-          className={error ? "error" : ""}
+          label = 'type value'
+          error = {!!error}
+          helperText = {error}
+          id="standard-basic"  variant="outlined" 
         />
 
-        <Button title={"+"} onClick={onCreateTaskHandler} />
-        {error && <div className={"error-message"}>{error}</div>}
+        <IconButton onClick={onCreateTaskHandler} color={'primary'}>
+          <ControlPoint/>
+        </IconButton>
       </div>
       
   

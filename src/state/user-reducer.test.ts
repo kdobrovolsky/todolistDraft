@@ -1,4 +1,5 @@
-
+import { userReducer } from "./user-reducer"
+import { test, expect } from 'vitest'
 
 test ('user reducer should increment only age', () => {
     const startState = {age: 20, childrenCount: 26, name: 'Kirill'}
@@ -6,7 +7,7 @@ test ('user reducer should increment only age', () => {
     const endState = userReducer(startState, {type: 'INCREMENT-AGE'})
 
     expect(endState.age).toBe(21)
-    expect(endState.childrenCount).toBe(2)
+    expect(endState.childrenCount).toBe(26  )
 
 })
 

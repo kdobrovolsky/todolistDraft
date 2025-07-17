@@ -146,9 +146,8 @@ export const AppWithReducer = () => {
           }
           return (
             <Paper style={{padding:"10px"}}>
-            <TodolistItem
+            <TodolistItem key={td.id}
               id={td.id}
-              key={td.id}
               title={td.title}
               filter={td.filter}
               tasks={tasksForTodolist}

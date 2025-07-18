@@ -43,6 +43,8 @@ export const AppWithRedux = () => {
   const dispatch = useDispatch();
   const todolits = useSelector<RootState, TodolistsType[]>((state) => state.todolists); //useSelector достает данные из store и подписывается на их изменения
   const tasks = useSelector<RootState, TasksStateType>((state) => state.tasks);
+  //1.Особенности useCallback: Ре-рендер только при изменении данных
+  // Компонент перерисовывается только если возвращаемое значение селектора изменилось (по сравнению с предыдущим вызовом).
 
   const changeFilter = (todolistId: string, filter: FilterValues) => {
     dispatch(changeTodolistFilterAC({ id: todolistId, filter }));
@@ -53,8 +55,7 @@ export const AppWithRedux = () => {
   };
 
   const addTodolistItem = (title: string) => {
-    const actionCreateTodo = createTodolistAC(title);
-    dispatch(actionCreateTodo);
+    dispatch(createTodolistAC(title));
   };
 
   const changeTodolistTitle = (taskId: string, newTitle: string) => {

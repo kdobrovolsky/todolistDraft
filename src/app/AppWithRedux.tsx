@@ -1,6 +1,5 @@
-import { TaskType, TodolistItem } from "./components/TodoListItem";
-import "./App.css";
-import { AddItemForm } from "./components/AddItemForm";
+import { TaskType, TodolistItem } from "../components/TodoListItem";
+import { AddItemForm } from "../components/AddItemForm";
 import {
   AppBar,
   Button,
@@ -17,13 +16,13 @@ import {
   changeTodolistTitleAC,
   createTodolistAC,
   deleteTodolistAC,
-} from "./state/todolists-reducer";
+} from "../state/todolists-reducer";
 import {
   changeTaskStatusAC,
   changeTaskTitleAC,
   createTaskAC,
   deleteTasksAC,
-} from "./state/tasks-reducer";
+} from "../state/tasks-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
 
@@ -42,7 +41,7 @@ export type TasksStateType = {
 export const AppWithRedux = () => {
 
   const dispatch = useDispatch();
-  const todolits = useSelector<RootState, TodolistsType[]>((state) => state.todolists);
+  const todolits = useSelector<RootState, TodolistsType[]>((state) => state.todolists); //useSelector достает данные из store и подписывается на их изменения
   const tasks = useSelector<RootState, TasksStateType>((state) => state.tasks);
 
   const changeFilter = (todolistId: string, filter: FilterValues) => {
@@ -66,7 +65,7 @@ export const AppWithRedux = () => {
     dispatch(deleteTasksAC({ todolistId, taskId }));
   };
 
-  const AddTask = (todolistId: string, title: string) => {
+  const AddTask = (todolistId: string, title: string) => { 
     dispatch(createTaskAC({ todolistId, title }));
   };
 

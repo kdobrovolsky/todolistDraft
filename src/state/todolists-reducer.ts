@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { FilterValues, TodolistsType } from "../App";
+import { FilterValues, TodolistsType } from "../app/App";
 // typeOf - deleteTodolistAC — это значение (функция), а не тип. TypeScript требует явно указать, что вы хотите работать с типом функции, а не с самой функцией.
 export type DeleteTodolistActionType = ReturnType<typeof deleteTodolistAC> //ReturnType берет из полученного типа только возвращаемое значение.
 export type CreateTodolistActionType = ReturnType<typeof createTodolistAC>

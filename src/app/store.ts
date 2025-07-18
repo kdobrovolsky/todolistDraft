@@ -1,6 +1,6 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import { tasksReducer } from './state/tasks-reducer'
-import { todolistsReducer } from './state/todolists-reducer'
+import { tasksReducer } from '../state/tasks-reducer'
+import { todolistsReducer } from '../state/todolists-reducer'
 
  
 // объединение reducer'ов с помощью combineReducers
@@ -21,4 +21,4 @@ export type AppDispatch = typeof store.dispatch
  
 // для возможности обращения к store в консоли браузера
 // @ts-ignore
-window.store = store
+window.store = store //создали стор глобальному объекту window

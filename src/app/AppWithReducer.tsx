@@ -1,6 +1,6 @@
 import { useReducer, useState } from "react";
 import { TaskType, TodolistItem } from "../components/TodoListItem";
-import { v1 } from "uuid";
+
 import "./App.css";
 import { AddItemForm } from "../components/AddItemForm";
 import {
@@ -14,8 +14,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC, todolistsReducer } from "../state/todolists-reducer";
-import { changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTasksAC, tasksReducer } from "../state/tasks-reducer";
+import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC, todolistsReducer } from "../model/todolists-reducer";
+import { changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTasksAC, tasksReducer } from "../model/tasks-reducer";
+import { nanoid } from "@reduxjs/toolkit";
 
 export type FilterValues = "all" | "active" | "completed";
 
@@ -30,8 +31,8 @@ export type TasksStateType = {
 }
 
 export const AppWithReducer = () => {
-  let todolistID1 = v1();
-  let todolistID2 = v1();
+  let todolistID1 = nanoid();
+  let todolistID2 = nanoid();
 
   const [todolists, dispatchTodolists] = useReducer(todolistsReducer,[
     { id: todolistID1, title: "Todolist1", filter: "all" },
@@ -40,18 +41,18 @@ export const AppWithReducer = () => {
 
   let [tasks, dispatchTasks] = useReducer(tasksReducer,{
     [todolistID1]: [
-      { id: v1(), title: "HTML&CSS", isDone: true },
-      { id: v1(), title: "JS", isDone: true },
-      { id: v1(), title: "ReactJS", isDone: false },
-      { id: v1(), title: "Rest API", isDone: false },
-      { id: v1(), title: "GraphQL", isDone: false },
+      { id: nanoid(), title: "HTML&CSS", isDone: true },
+      { id: nanoid(), title: "JS", isDone: true },
+      { id: nanoid(), title: "ReactJS", isDone: false },
+      { id: nanoid(), title: "Rest API", isDone: false },
+      { id: nanoid(), title: "GraphQL", isDone: false },
     ],
     [todolistID2]: [
-      { id: v1(), title: "HTML&CSS2", isDone: true },
-      { id: v1(), title: "JS2", isDone: true },
-      { id: v1(), title: "ReactJS2", isDone: false },
-      { id: v1(), title: "Rest API2", isDone: false },
-      { id: v1(), title: "GraphQL2", isDone: false },
+      { id: nanoid(), title: "HTML&CSS2", isDone: true },
+      { id: nanoid(), title: "JS2", isDone: true },
+      { id: nanoid(), title: "ReactJS2", isDone: false },
+      { id: nanoid(), title: "Rest API2", isDone: false },
+      { id: nanoid(), title: "GraphQL2", isDone: false },
     ],
   });
 
@@ -91,8 +92,7 @@ export const AppWithReducer = () => {
   ) => {
     dispatchTasks(changeTaskStatusAC({todolistId,taskId,isDone}));
   };
-
-
+  
   const onChangeTaskTitle = (
     todolistId: string,
     taskId: string,
@@ -100,9 +100,6 @@ export const AppWithReducer = () => {
   ) => {
     dispatchTasks(changeTaskTitleAC({todolistId,taskId,title}))
   };
-
-
-
   return (
     <div style={{ width: '100vw' }}>
        <AppBar 

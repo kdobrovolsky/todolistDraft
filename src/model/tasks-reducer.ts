@@ -1,6 +1,9 @@
-import { v1 } from "uuid";
+
+import { createReducer, nanoid } from "@reduxjs/toolkit";
 import { TasksStateType} from "../app/App";
-import { CreateTodolistActionType, DeleteTodolistActionType, todolistID1, todolistID2 } from "./todolists-reducer";
+import { createTodolistAC, deleteTodolistAC, todolistID1, todolistID2 } from "./todolists-reducer";
+
+
 
 
 export type DeleteTasksActionType = ReturnType<typeof deleteTasksAC>
@@ -8,8 +11,6 @@ export type CreateTasksActionType = ReturnType<typeof createTaskAC>
 export type ChangeTasksStatusActionType = ReturnType<typeof changeTaskStatusAC>
 export type ChangeTasksTitleActionType = ReturnType<typeof changeTaskTitleAC>
 type ActionType = 
-DeleteTodolistActionType |
-CreateTodolistActionType | 
 DeleteTasksActionType | 
 CreateTasksActionType | 
 ChangeTasksStatusActionType |
@@ -17,33 +18,31 @@ ChangeTasksTitleActionType
 
 const initialState:TasksStateType = {
     [todolistID1]: [
-      { id: v1(), title: "HTML&CSS", isDone: true },
-      { id: v1(), title: "JS", isDone: true },
-      { id: v1(), title: "ReactJS", isDone: false },
-      { id: v1(), title: "Rest API", isDone: false },
-      { id: v1(), title: "GraphQL", isDone: false },
+      { id: nanoid(), title: "HTML&CSS", isDone: true },
+      { id: nanoid(), title: "JS", isDone: true },
+      { id: nanoid(), title: "ReactJS", isDone: false },
+      { id: nanoid(), title: "Rest API", isDone: false },
+      { id: nanoid(), title: "GraphQL", isDone: false },
     ],
     [todolistID2]: [
-      { id: v1(), title: "HTML&CSS2", isDone: true },
-      { id: v1(), title: "JS2", isDone: true },
-      { id: v1(), title: "ReactJS2", isDone: false },
-      { id: v1(), title: "Rest API2", isDone: false },
-      { id: v1(), title: "GraphQL2", isDone: false },
+      { id: nanoid(), title: "HTML&CSS2", isDone: true },
+      { id: nanoid(), title: "JS2", isDone: true },
+      { id: nanoid(), title: "ReactJS2", isDone: false },
+      { id: nanoid(), title: "Rest API2", isDone: false },
+      { id: nanoid(), title: "GraphQL2", isDone: false },
     ],
   }
 
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionType):TasksStateType => {
-    switch(action.type){
-        case 'delete_todolist':{
-            const stateCopy = {...state}
-            delete stateCopy[action.payload.id]
-            return stateCopy
-        }
-        
-        case 'create_todolist':{
-           return {...state, [action.payload.id]:[]}
-        }
-        
+  export const tasksReducer = createReducer(initialState,(builder)=>{
+    builder.addCase(createTodolistAC,(state,action)=>{
+        state[action.payload.id] = []
+    }).addCase(deleteTodolistAC,(state,action)=> {
+        delete state[action.payload.id]
+    })
+  })
+
+export const tasksReducer2 = (state: TasksStateType = initialState, action: ActionType):TasksStateType => {
+    switch(action.type){    
         case 'delete_tasks':{
             const stateCopy = {...state}
             const tasks = state[action.payload.todolistId]
@@ -53,7 +52,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
 
         case 'create_task': {
-            const newTask = { id: v1(), title: action.payload.title, isDone: false };
+            const newTask = { id:nanoid(), title: action.payload.title, isDone: false };
             return {
                 ...state,[action.payload.todolistId]:[newTask, ...state[action.payload.todolistId]]
             }

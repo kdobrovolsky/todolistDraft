@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { TaskType, TodolistItem } from "../components/TodoListItem";
-import { v1 } from "uuid";
 import { AddItemForm } from "../components/AddItemForm";
 import {
   AppBar,
@@ -13,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
+import { nanoid } from "@reduxjs/toolkit";
 
 export type FilterValues = "all" | "active" | "completed";
 
@@ -27,8 +27,8 @@ export type TasksStateType = {
 }
 
 export const App = () => {
-  let todolistID1 = v1();
-  let todolistID2 = v1();
+  let todolistID1 = nanoid();
+  let todolistID2 = nanoid();
 
   const [todolists, setTodolists] = useState<TodolistsType[]>([
     { id: todolistID1, title: "Todolist1", filter: "all" },
@@ -37,18 +37,18 @@ export const App = () => {
 
   let [tasks, setTasks] = useState<TasksStateType>({
     [todolistID1]: [
-      { id: v1(), title: "HTML&CSS", isDone: true },
-      { id: v1(), title: "JS", isDone: true },
-      { id: v1(), title: "ReactJS", isDone: false },
-      { id: v1(), title: "Rest API", isDone: false },
-      { id: v1(), title: "GraphQL", isDone: false },
+      { id: nanoid(), title: "HTML&CSS", isDone: true },
+      { id: nanoid(), title: "JS", isDone: true },
+      { id: nanoid(), title: "ReactJS", isDone: false },
+      { id: nanoid(), title: "Rest API", isDone: false },
+      { id: nanoid(), title: "GraphQL", isDone: false },
     ],
     [todolistID2]: [
-      { id: v1(), title: "HTML&CSS2", isDone: true },
-      { id: v1(), title: "JS2", isDone: true },
-      { id: v1(), title: "ReactJS2", isDone: false },
-      { id: v1(), title: "Rest API2", isDone: false },
-      { id: v1(), title: "GraphQL2", isDone: false },
+      { id: nanoid(), title: "HTML&CSS2", isDone: true },
+      { id: nanoid(), title: "JS2", isDone: true },
+      { id: nanoid(), title: "ReactJS2", isDone: false },
+      { id: nanoid(), title: "Rest API2", isDone: false },
+      { id: nanoid(), title: "GraphQL2", isDone: false },
     ],
   });
 
@@ -68,7 +68,7 @@ export const App = () => {
   };
 
   const AddTask = (todolistID: string, title: string) => {
-    const newTask = { id: v1(), title, isDone: false };
+    const newTask = { id:nanoid(), title, isDone: false };
     setTasks({ ...tasks, [todolistID]: [newTask, ...tasks[todolistID]] });
   };
 
@@ -90,7 +90,7 @@ export const App = () => {
   };
 
   const addTodolistItem = (title: string) => {
-    const todolist: TodolistsType = { id: v1(), title, filter: "all" };
+    const todolist: TodolistsType = { id: nanoid(), title, filter: "all" };
     setTodolists([todolist, ...todolists]);
 
     setTasks({ ...tasks, [todolist.id]: [] });

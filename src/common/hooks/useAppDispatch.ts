@@ -1,4 +1,4 @@
 import {useDispatch} from 'react-redux'
-import { AppDispatch } from '../../store'
-
+import { AppDispatch } from '../../app/store'
+//кастомный хук
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()

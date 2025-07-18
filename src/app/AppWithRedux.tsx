@@ -16,15 +16,17 @@ import {
   changeTodolistTitleAC,
   createTodolistAC,
   deleteTodolistAC,
-} from "../state/todolists-reducer";
+} from "../model/todolists-reducer";
 import {
   changeTaskStatusAC,
   changeTaskTitleAC,
   createTaskAC,
   deleteTasksAC,
-} from "../state/tasks-reducer";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./store";
+} from "../model/tasks-reducer";
+import { useAppSelector } from "../common/hooks/useAppSelector";
+import { useAppDispatch } from "../common/hooks/useAppDispatch";
+import { selectTodolists } from "../model/todolists-selector";
+import { selectTasks } from "../model/tasks-selector";
 
 export type FilterValues = "all" | "active" | "completed";
 
@@ -37,12 +39,11 @@ export type TodolistsType = {
 export type TasksStateType = {
   [key: string]: TaskType[];
 };
-
 export const AppWithRedux = () => {
-
-  const dispatch = useDispatch();
-  const todolits = useSelector<RootState, TodolistsType[]>((state) => state.todolists); //useSelector достает данные из store и подписывается на их изменения
-  const tasks = useSelector<RootState, TasksStateType>((state) => state.tasks);
+  const dispatch = useAppDispatch();
+  const todolits = useAppSelector(selectTodolists); 
+  const tasks = useAppSelector(selectTasks);
+  //useSelector достает данные из store и подписывается на их изменения
   //1.Особенности useCallback: Ре-рендер только при изменении данных
   // Компонент перерисовывается только если возвращаемое значение селектора изменилось (по сравнению с предыдущим вызовом).
 
@@ -51,7 +52,7 @@ export const AppWithRedux = () => {
   };
 
   const deleteTodolist = (todolistId: string) => {
-    dispatch(deleteTodolistAC(todolistId));
+    dispatch(deleteTodolistAC({id:todolistId}));
   };
 
   const addTodolistItem = (title: string) => {
@@ -92,7 +93,7 @@ export const AppWithRedux = () => {
         position="static"
         sx={{
           width: "100%",
-          borderRadius: 0, // Убирает скруглённые углы (если есть)
+          borderRadius: 0,
         }}
       >
         <Toolbar>

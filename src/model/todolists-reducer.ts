@@ -27,7 +27,7 @@ export const todolistsReducer = createReducer(initialState, (builder)=> {
     if (index !== -1) state[index].title = action.payload.title
 }).addCase(changeTodolistFilterAC,(state,action)=> {
   const index = state.findIndex(todo => todo.id === action.payload.id)
-    if (index !== -1) state[index].title = action.payload.filter
+    if (index !== -1) state[index].filter = action.payload.filter
 }).addCase(createTodolistAC,(state,action)=> {
   state.push({id: action.payload.id, title: action.payload.title, filter: 'all'})
 })

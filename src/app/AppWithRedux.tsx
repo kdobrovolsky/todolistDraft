@@ -43,6 +43,7 @@ export const AppWithRedux = () => {
   const dispatch = useAppDispatch();
   const todolits = useAppSelector(selectTodolists); 
   const tasks = useAppSelector(selectTasks);
+ 
   //useSelector достает данные из store и подписывается на их изменения
   //1.Особенности useCallback: Ре-рендер только при изменении данных
   // Компонент перерисовывается только если возвращаемое значение селектора изменилось (по сравнению с предыдущим вызовом).

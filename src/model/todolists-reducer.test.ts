@@ -5,6 +5,7 @@ import {changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteT
 import { TodolistsType } from '../app/App'
 
 
+
 let todolistId1: string
 let todolistId2: string
 let startState: TodolistsType[] = []
@@ -27,7 +28,7 @@ test('correct todolist should be deleted', () => {
       id: todolistId1,
     },
   }
-  const endState = todolistsReducer(startState, deleteTodolistAC(todolistId1))
+  const endState = todolistsReducer(startState, deleteTodolistAC({id:action.payload.id}))
  
   // 3. Проверка, что действие измененило state соответствующим образом
   // в массиве останется один тудулист

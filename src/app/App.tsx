@@ -1,6 +1,4 @@
-
 import {
-
   CssBaseline,
   ThemeProvider,
 } from "@mui/material";
@@ -9,7 +7,7 @@ import { TaskType } from "../components/TodoListItem";
 import { selectApp } from "./app-selectors";
 import { getTheme } from "@/common/theme/theme";
 import { Header } from "@/common/components/Header/Header";
-import { Main } from "@/Main/Main";
+import { Main } from "@/app/Main/Main";
 
 export type FilterValues = "all" | "active" | "completed";
 export type TodolistsType = {

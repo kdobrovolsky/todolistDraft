@@ -1,13 +1,11 @@
 import { IconButton } from "@mui/material";
-import { EditableSpan } from "./components/EditableSpan";
+import { EditableSpan } from "../../../../../../common/components/EditableSpan/EditableSpan";
 
-import { useAppDispatch } from "./common/hooks/useAppDispatch";
-import {
-  changeTodolistTitleAC,
-  deleteTodolistAC,
-} from "./model/todolists-reducer";
-import { TodolistsType } from "./app/App";
+import { useAppDispatch } from "../../../../../../common/hooks/useAppDispatch";
+
+import { TodolistsType } from "../../../../../../app/App";
 import Delete from "@mui/icons-material/Delete";
+import { changeTodolistTitleAC, deleteTodolistAC } from "@/features/todolists/model/todolists-reducer";
 
 type TodolistTitleProps = {
   todolist: TodolistsType;

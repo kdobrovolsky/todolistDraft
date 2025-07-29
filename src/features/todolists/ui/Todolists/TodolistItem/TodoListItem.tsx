@@ -1,12 +1,15 @@
-import { TodolistsType } from "../app/App";
-import { AddItemForm } from "./AddItemForm";
+import { TodolistsType } from "../../../../../app/App";
+
 import { useSelector } from "react-redux";
-import { selectTasks } from "@/model/tasks-selector";
+
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import { createTaskAC } from "@/model/tasks-reducer";
-import { FilterButtons } from "@/FilterButtons";
-import { TodolistTitle } from "@/TodolistTitle";
-import { TaskItem } from "@/TaskItem";
+
+import { FilterButtons } from "@/features/todolists/ui/Todolists/TodolistItem/FilterButtons/FilterButtons";
+import { TodolistTitle } from "@/features/todolists/ui/Todolists/TodolistItem/TodolistsTitle/TodolistTitle";
+import { TaskItem } from "@/features/todolists/ui/Todolists/TodolistItem/TaskItem/TaskItem";
+import { createTaskAC } from "@/features/todolists/model/tasks-reducer";
+import { selectTasks } from "@/features/todolists/model/tasks-selector";
+import { CreateItemForm } from "@/common/components/CreateItemForm/CreateItemForm";
 
 export type TaskType = {
   id: string;
@@ -21,7 +24,7 @@ export const TodolistItem = ({ todolist }: TodolistItemPropsType) => {
   const { id,filter } = todolist;
 
   const dispatch = useAppDispatch();
-  const addTaskForm = (title: string) => {
+  const createItemForm = (title: string) => {
     dispatch(createTaskAC({ todolistId: todolist.id, title }));
   };
 
@@ -37,7 +40,7 @@ export const TodolistItem = ({ todolist }: TodolistItemPropsType) => {
         todolist={todolist}
       />
 
-      <AddItemForm addItem={addTaskForm} />
+      <CreateItemForm createItemForm={createItemForm} />
       {!filteredTasks || filteredTasks.length === 0 ? (
         <p>no tasks</p>
       ) : (

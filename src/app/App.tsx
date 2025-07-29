@@ -3,7 +3,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { useAppSelector } from "../common/hooks/useAppSelector";
-import { TaskType } from "../components/TodoListItem";
+import { TaskType } from "../features/todolists/ui/Todolists/TodolistItem/TodoListItem";
 import { selectApp } from "./app-selectors";
 import { getTheme } from "@/common/theme/theme";
 import { Header } from "@/common/components/Header/Header";
